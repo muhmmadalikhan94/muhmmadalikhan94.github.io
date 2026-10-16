@@ -66,19 +66,24 @@ button{font:inherit;color:inherit}
 /* ---------- nav: an MSH header ---------- */
 .nav{position:fixed;top:0;left:0;right:0;z-index:70;padding-top:env(safe-area-inset-top, 0px);transition:background-color .35s, border-color .35s;border-bottom:1px solid transparent}
 .nav.scrolled{background:color-mix(in srgb, var(--bg) 78%, transparent);backdrop-filter:blur(16px) saturate(1.5);-webkit-backdrop-filter:blur(16px) saturate(1.5);border-bottom-color:var(--line)}
-.nav-in{display:flex;align-items:center;justify-content:space-between;gap:20px;height:60px}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--f-display);font-variation-settings:"wdth" 130, "wght" 850;font-size:1.25rem;letter-spacing:-.01em}
+.nav-in{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:20px;height:64px}
+.logo{justify-self:start;display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--f-display);font-variation-settings:"wdth" 130, "wght" 850;font-size:1.25rem;letter-spacing:-.01em}
 .logo i{width:9px;height:9px;border-radius:2px;background:var(--accent);box-shadow:0 0 14px var(--glow);animation:spinsq 6s linear infinite}
 @keyframes spinsq{to{transform:rotate(360deg)}}
-.seg-nav{font-family:var(--f-mono);font-size:12.5px;letter-spacing:.05em;display:flex;align-items:center;white-space:nowrap}
-.seg-nav .d{color:var(--faint)}
-.seg-nav .hd{color:var(--accent);margin-right:2px}
-.seg-nav a{text-decoration:none;color:var(--muted);padding:3px 6px;border-radius:4px;transition:color .2s, background-color .25s}
-.seg-nav a:hover{color:var(--ink)}
-.seg-nav a.active{background:var(--accent-solid);color:var(--on-accent)}
-.nav-tools{display:flex;align-items:center;gap:14px}
-.clock{font-family:var(--f-mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
-.clock b{color:var(--ink);font-weight:500}
+.nav-links{
+  position:relative;display:flex;align-items:center;gap:2px;padding:4px;border-radius:999px;
+  border:1px solid var(--line);background:color-mix(in srgb, var(--surface) 72%, transparent);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+}
+.nav-links a{position:relative;z-index:1;padding:7px 15px;border-radius:999px;text-decoration:none;font-size:.86rem;font-weight:500;color:var(--muted);white-space:nowrap;transition:color .3s}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a.active{color:var(--on-accent)}
+.nav-pill{
+  position:absolute;top:4px;bottom:4px;left:0;width:0;border-radius:999px;opacity:0;
+  background:linear-gradient(120deg, var(--accent-solid), var(--accent-solid-2));box-shadow:0 6px 18px -6px var(--glow);
+  transition:transform .55s var(--ease), width .55s var(--ease), opacity .3s;
+}
+.nav-tools{justify-self:end;display:flex;align-items:center;gap:10px}
 .icon-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:transparent;display:grid;place-items:center;cursor:pointer;transition:border-color .2s, transform .4s var(--ease)}
 .icon-btn:hover{border-color:var(--accent);transform:rotate(-20deg)}
 .icon-btn svg{width:17px;height:17px}
@@ -86,8 +91,7 @@ button{font:inherit;color:inherit}
 :root[data-theme="light"] .theme-btn .sun{display:block}
 :root[data-theme="light"] .theme-btn .moon{display:none}
 .menu-btn{display:none}
-@media (max-width:980px){ .seg-nav{display:none} .menu-btn{display:grid} }
-@media (max-width:420px){ .clock{display:none} }
+@media (max-width:980px){ .nav-links{display:none} .menu-btn{display:grid} .nav-in{grid-template-columns:1fr auto} }
 
 .overlay{
   position:fixed;inset:0;z-index:65;background:var(--bg);display:flex;flex-direction:column;justify-content:center;gap:4px;
@@ -191,13 +195,34 @@ h2.big em{font-style:normal;color:transparent;-webkit-text-stroke:1.5px var(--ac
 
 /* ---------- work ---------- */
 #work{background:var(--bg-2);border-block:1px solid var(--line)}
-.work-head{display:grid;grid-template-columns:auto minmax(0, 1fr);gap:20px 48px;align-items:end;margin-bottom:clamp(40px, 6vw, 80px)}
-@media (max-width:760px){ .work-head{grid-template-columns:minmax(0, 1fr)} }
-.work-co{font-family:var(--f-display);font-variation-settings:"wdth" 150, "wght" 900;font-size:clamp(5rem, 20vw, 16rem);line-height:.78;margin:0;letter-spacing:-.03em;padding-bottom:.04em;
-  background:linear-gradient(180deg, var(--ink) 30%, color-mix(in srgb, var(--accent) 70%, var(--ink)));-webkit-background-clip:text;background-clip:text;color:transparent}
-.work-meta{display:grid;gap:6px;padding-bottom:10px}
-.work-meta .role{font-size:clamp(1.2rem, 2vw, 1.6rem);font-weight:600;line-height:1.2}
-.work-meta .mono{font-size:12.5px;color:var(--muted);letter-spacing:.04em}
+.job{
+  position:relative;isolation:isolate;overflow:hidden;display:grid;grid-template-columns:auto minmax(0, 1fr);gap:20px clamp(28px, 5vw, 72px);align-items:center;
+  padding:clamp(26px, 4vw, 52px);margin-bottom:clamp(44px, 6vw, 84px);border-radius:24px;border:1px solid color-mix(in srgb, var(--accent) 35%, var(--line));
+  background:
+    radial-gradient(120% 140% at 0% 0%, color-mix(in srgb, var(--accent-solid) 34%, transparent), transparent 55%),
+    radial-gradient(80% 120% at 100% 100%, color-mix(in srgb, var(--accent-2) 16%, transparent), transparent 60%),
+    var(--surface);
+  box-shadow:0 40px 90px -50px var(--glow);
+}
+.job::after{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(105deg, transparent 35%, color-mix(in srgb, var(--ink) 9%, transparent) 50%, transparent 65%);
+  transform:translateX(-100%);animation:sheen 6s var(--ease-in-out) infinite 1s;
+}
+@keyframes sheen{0%{transform:translateX(-100%)}45%,100%{transform:translateX(100%)}}
+@media (max-width:760px){ .job{grid-template-columns:minmax(0, 1fr)} }
+.work-co{
+  font-family:var(--f-display);font-variation-settings:"wdth" 150, "wght" 900;font-size:clamp(4.6rem, 15vw, 11.5rem);line-height:.8;margin:0;letter-spacing:-.03em;padding:.04em .02em .06em 0;
+  background:linear-gradient(100deg, var(--ink) 0%, var(--accent) 55%, var(--accent-2) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 10px 40px var(--glow));
+}
+.work-meta{display:grid;gap:10px;min-width:0}
+.work-meta .now{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.work-meta .role{font-family:var(--f-display);font-variation-settings:"wdth" 100, "wght" 720;font-size:clamp(1.6rem, 3.2vw, 2.6rem);line-height:1.02;letter-spacing:-.01em}
+.work-meta .team{color:var(--muted);font-size:1.05rem}
+.job-chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:6px 0 0;padding:0}
+.job-chips li{font-family:var(--f-mono);font-size:12px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:color-mix(in srgb, var(--bg) 60%, transparent);color:var(--ink);display:inline-flex;align-items:center;gap:8px}
+.job-chips li svg{width:13px;height:13px;color:var(--accent)}
 .work-grid{display:grid;grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);gap:clamp(32px, 5vw, 72px);align-items:start}
 @media (max-width:960px){ .work-grid{grid-template-columns:minmax(0, 1fr)} }
 .duty{padding:30px 0 34px;border-top:1px solid var(--line);transition:opacity .5s var(--ease)}
@@ -484,12 +509,11 @@ footer b{color:var(--accent-2);font-weight:500}
 <nav class="nav" id="nav" aria-label="Main">
   <div class="wrap nav-in">
     <a class="logo" href="#top" aria-label="Muhammad Ali Khan, back to top"><i aria-hidden="true"></i>MAK</a>
-    <div class="seg-nav" id="segNav">
-      <span class="hd">MSH</span><span class="d">|^~\&amp;|</span>
-      <a href="#about">ABOUT</a><span class="d">|</span><a href="#work">WORK</a><span class="d">|</span><a href="#projects">PROJECTS</a><span class="d">|</span><a href="#stack">STACK</a><span class="d">|</span><a href="#education">EDU</a><span class="d">|</span><a href="#contact">CONTACT</a><span class="d">|</span>
+    <div class="nav-links" id="segNav">
+      <span class="nav-pill" id="navPill" aria-hidden="true"></span>
+      <a href="#about">About</a><a href="#work">Experience</a><a href="#projects">Projects</a><a href="#stack">Stack</a><a href="#education">Education</a><a href="#contact">Contact</a>
     </div>
     <div class="nav-tools">
-      <span class="clock" id="clock" title="Local time in Islamabad">ISB <b>--:--</b></span>
       <button class="icon-btn theme-btn" id="themeBtn" type="button" aria-label="Switch colour theme">
         <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
         <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
@@ -502,7 +526,7 @@ footer b{color:var(--accent-2);font-weight:500}
 </nav>
 <div class="overlay" id="overlay" aria-label="Menu">
   <a href="#about" style="--i:0"><small>PID</small>About</a>
-  <a href="#work" style="--i:1"><small>ZEM</small>Work</a>
+  <a href="#work" style="--i:1"><small>ZEM</small>Experience</a>
   <a href="#projects" style="--i:2"><small>ZPR</small>Projects</a>
   <a href="#stack" style="--i:3"><small>ZSK</small>Stack</a>
   <a href="#education" style="--i:4"><small>ZED</small>Education</a>
@@ -555,11 +579,18 @@ footer b{color:var(--accent-2);font-weight:500}
   <section id="work">
     <div class="wrap">
       <div class="seg-row" data-reveal><span class="seg">ZEM</span><span>Experience</span><span class="rule"></span></div>
-      <div class="work-head">
-        <h2 class="work-co" data-reveal>Eon</h2>
-        <div class="work-meta" data-reveal>
+      <h2 class="big scramble" data-reveal>Work <em>experience</em></h2>
+      <div class="job" data-reveal>
+        <p class="work-co">Eon</p>
+        <div class="work-meta">
+          <span class="now">Industry experience</span>
           <span class="role">Associate Software Engineer</span>
-          <span class="mono">Data and Integrations Team · 2025 – 2026 · Islamabad</span>
+          <span class="team">Data and Integrations Team</span>
+          <ul class="job-chips">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>2025 – 2026</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Islamabad, PK</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>Healthcare data</li>
+          </ul>
         </div>
       </div>
       <div class="work-grid">
@@ -742,7 +773,7 @@ footer b{color:var(--accent-2);font-weight:500}
 
   /* ---------- clocks (Islamabad) ---------- */
   const fmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Karachi', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
-  const tickClock = () => { const t = fmt.format(new Date()); $('#clock b').textContent = t.slice(0, 5); $('#clock2').textContent = t + ' PKT'; };
+  const tickClock = () => { $('#clock2').textContent = fmt.format(new Date()) + ' PKT'; };
   tickClock(); setInterval(tickClock, 1000);
 
   /* ---------- scroll progress, nav state, active segment ---------- */
@@ -753,10 +784,17 @@ footer b{color:var(--accent-2);font-weight:500}
     nav.classList.toggle('scrolled', scrollY > 10);
   };
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
-  const navLinks = $$('#segNav a');
+  const navLinks = $$('#segNav a'), pill = $('#navPill');
+  const movePill = a => {
+    if (!a) { pill.style.opacity = 0; return; }
+    pill.style.width = a.offsetWidth + 'px'; pill.style.transform = `translateX(${a.offsetLeft}px)`; pill.style.opacity = 1;
+  };
+  const setActive = id => { let hit = null; navLinks.forEach(a => { const on = a.getAttribute('href') === '#' + id; a.classList.toggle('active', on); if (on) hit = a; }); movePill(hit); };
   const secObs = new IntersectionObserver(es => es.forEach(e => {
-    if (e.isIntersecting) navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+    if (e.isIntersecting) setActive(e.target.id);
   }), { rootMargin: '-45% 0px -50% 0px' });
+  addEventListener('scroll', () => { if (scrollY < innerHeight * .35) setActive(null); }, { passive: true });
+  addEventListener('resize', () => movePill($('#segNav a.active')));
   navLinks.forEach(a => { const s = $(a.getAttribute('href')); if (s) secObs.observe(s); });
 
   /* ---------- magnetic button ---------- */
