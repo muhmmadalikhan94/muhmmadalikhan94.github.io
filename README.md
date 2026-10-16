@@ -6,12 +6,15 @@ Personal portfolio site: experience, projects, skills and education.
 
 ## What's inside
 
-- An animated hero that parses a sample HL7 v2 message into JSON, field by field
-- Filterable project grid with cursor-follow highlights
-- Scroll-triggered reveals, a drawing education timeline and a scrolling tech marquee
-- Purple dark theme by default, with a light theme toggle
-- Respects `prefers-reduced-motion`
-- Single `index.html`, no build step and no dependencies apart from Google Fonts
+The whole site is designed as an HL7 v2 message about its author: the nav is an `MSH` header and each section is a segment (`PID`, `ZEM`, `ZPR`, `ZSK`, `ZED`, `ACK`).
+
+- Hero name drawn on canvas from HL7 delimiter characters, with a scanning lens that follows the cursor and data packets running across it
+- About section shown as a real `PID` segment plus custom Z-segments, with a hover-linked decoder
+- Experience with a live HL7 → JSON parser animation that maps each field
+- Project index with variable-font hover, cursor-following previews and expandable details
+- Skills-by-project matrix showing where each technology was used
+- Purple dark theme by default with a light toggle; respects `prefers-reduced-motion`
+- Single `index.html`, no build step, no dependencies apart from Google Fonts
 
 ## Run locally
 
